@@ -4,374 +4,364 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>A TV — অবিরত সত্যের সাথে</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;600;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{
-  background:#000;
-  width:100%;height:100%;
-  font-family:'Noto Sans Bengali','Arial',sans-serif;
+:root{
+  --red:#cc0022;--red2:#ff2244;--red-dark:#880016;
+  --bg:#07070f;--surface:#0d0016;--surface2:#12001a;
+  --gold:#c8a455;--gold2:#f0c060;
+  --text:#fff;--muted:#8877aa;--accent:#ff8899;
+}
+html,body{width:100%;height:100%;background:#000;font-family:'Noto Sans Bengali','Rajdhani',sans-serif;overflow:hidden;}
+
+/* ═══ MAIN LAYOUT ═══ */
+#app{width:100vw;height:100vh;display:flex;flex-direction:column;background:var(--bg);position:relative;overflow:hidden;}
+
+/* ═══ GLOBAL BG FX ═══ */
+#bg-fx{position:absolute;inset:0;z-index:0;pointer-events:none;}
+#bg-radial{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 35%,#0e0022 0%,#000 80%);}
+#bg-grid{position:absolute;inset:0;opacity:.07;background-image:linear-gradient(rgba(204,0,34,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(204,0,34,.5) 1px,transparent 1px);background-size:clamp(30px,4vw,60px) clamp(30px,4vw,60px);}
+.scan-h{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red) 30%,var(--red2) 50%,var(--red) 70%,transparent);animation:scanMove 7s linear infinite;opacity:0;}
+.scan-h:nth-child(1){top:15%;animation-delay:0s;}
+.scan-h:nth-child(2){top:55%;animation-delay:2.3s;}
+.scan-h:nth-child(3){top:80%;animation-delay:4.7s;}
+@keyframes scanMove{0%{transform:translateX(-110%);opacity:0;}10%{opacity:.6;}90%{opacity:.6;}100%{transform:translateX(110%);opacity:0;}}
+.vbar{position:absolute;top:0;bottom:0;width:clamp(3px,0.4vw,5px);background:linear-gradient(180deg,transparent,var(--red) 20%,var(--red2) 50%,var(--red) 80%,transparent);animation:vbarPulse 2.5s ease-in-out infinite;}
+#vb-l{left:clamp(6px,1.5vw,28px);animation-delay:0s;}
+#vb-r{right:clamp(6px,1.5vw,28px);animation-delay:1.2s;}
+@keyframes vbarPulse{0%,100%{opacity:.25;}50%{opacity:.85;}}
+.corner{position:absolute;width:clamp(24px,4vw,60px);height:clamp(24px,4vw,60px);z-index:10;}
+.corner::before,.corner::after{content:'';position:absolute;background:var(--red);}
+.corner::before{width:100%;height:2px;top:0;}
+.corner::after{width:2px;height:100%;left:0;top:0;}
+#c-tl{top:clamp(8px,1.5vh,30px);left:clamp(8px,1.5vw,40px);}
+#c-tr{top:clamp(8px,1.5vh,30px);right:clamp(8px,1.5vw,40px);transform:scaleX(-1);}
+#c-bl{bottom:clamp(50px,9vh,85px);left:clamp(8px,1.5vw,40px);transform:scaleY(-1);}
+#c-br{bottom:clamp(50px,9vh,85px);right:clamp(8px,1.5vw,40px);transform:scale(-1,-1);}
+
+/* ═══ TOP BAR ═══ */
+#topbar{
+  position:relative;z-index:20;flex-shrink:0;
+  display:flex;align-items:center;
+  height:clamp(44px,7vh,70px);
+  padding:0 clamp(12px,3vw,60px);
+  gap:clamp(6px,1.5vw,18px);
+  background:linear-gradient(180deg,rgba(8,0,20,.97),rgba(8,0,20,.8));
+  border-bottom:2px solid var(--red);
+}
+#logo-box{
+  width:clamp(34px,5vw,56px);height:clamp(30px,4.5vh,50px);
+  background:var(--red);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(16px,2.8vw,28px);font-weight:900;color:#fff;
+  animation:logoSpin 7s ease-in-out infinite;
+  position:relative;overflow:hidden;flex-shrink:0;
+}
+@keyframes logoSpin{0%{transform:rotateY(0deg);}20%{transform:rotateY(90deg);}40%{transform:rotateY(180deg);}60%{transform:rotateY(270deg);}80%,100%{transform:rotateY(360deg);}}
+#logo-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.3),transparent 55%);animation:logoShine 7s ease-in-out infinite;}
+@keyframes logoShine{0%,70%,100%{opacity:0;}30%{opacity:1;}}
+#logo-info{display:flex;flex-direction:column;justify-content:center;}
+#ch-name{font-size:clamp(13px,2.2vw,22px);font-weight:900;color:#fff;letter-spacing:clamp(1px,.4vw,3px);line-height:1;}
+#ch-slogan{font-size:clamp(7px,1vw,11px);color:var(--accent);letter-spacing:.5px;margin-top:2px;white-space:nowrap;}
+#tb-sep{width:1px;height:clamp(16px,3vh,32px);background:rgba(204,0,34,.3);}
+#live-pill{
+  background:var(--red);color:#fff;
+  font-size:clamp(9px,1.2vw,13px);font-weight:900;
+  padding:clamp(3px,0.5vh,6px) clamp(7px,1.2vw,14px);
+  border-radius:4px;letter-spacing:1.5px;white-space:nowrap;
+  animation:liveBlink 1.1s step-start infinite;
+  box-shadow:0 0 12px rgba(204,0,34,.5);flex-shrink:0;
+}
+@keyframes liveBlink{0%,100%{opacity:1;}55%{opacity:.2;}}
+#tb-spacer{flex:1;}
+#tb-right{display:flex;align-items:center;gap:clamp(6px,1.5vw,18px);}
+#hd-tag{font-size:clamp(7px,.9vw,11px);color:var(--red);border:1px solid rgba(204,0,34,.5);padding:3px clamp(5px,.8vw,10px);border-radius:4px;letter-spacing:2px;font-weight:700;white-space:nowrap;}
+
+/* CLOCK — শুধু একবার উপরে, বাংলাদেশ সময় */
+#clock-box{text-align:right;}
+#clock{font-size:clamp(12px,2.2vw,24px);font-weight:700;color:#fff;font-family:monospace;letter-spacing:2px;}
+#dateline{font-size:clamp(6px,.85vw,10px);color:var(--muted);margin-top:1px;white-space:nowrap;}
+
+/* ═══ BREAKING BAR ═══ */
+#breaking-bar{
+  position:relative;z-index:15;flex-shrink:0;
+  display:flex;align-items:center;
+  height:clamp(26px,4vh,42px);
+  background:rgba(10,0,16,.9);
+  border-bottom:1.5px solid var(--red-dark);
   overflow:hidden;
 }
-
-/* ── TV SHELL ── */
-#tv{
-  width:100vw;height:100vh;
-  background:#07070f;
-  display:flex;flex-direction:column;
-  position:relative;overflow:hidden;
-}
-
-/* ══════════ TOP BAR ══════════ */
-#topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(90deg,#0d0014,#130008 40%,#0d0014);
-  border-bottom:2.5px solid #cc0022;
-  padding:4px clamp(8px,2vw,18px);
-  height:clamp(44px,7vh,62px);
-  flex-shrink:0;position:relative;z-index:20;
-  gap:8px;
-}
-
-/* LOGO */
-#logo-area{display:flex;align-items:center;gap:clamp(6px,1.5vw,12px);min-width:0;}
-#logo-box{
-  width:clamp(34px,5vw,52px);
-  height:clamp(30px,4.5vh,46px);
-  background:#cc0022;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:5px;position:relative;overflow:hidden;flex-shrink:0;
-  animation:logoSpin3D 6s ease-in-out infinite;
-  transform-style:preserve-3d;
-}
-@keyframes logoSpin3D{
-  0%{transform:rotateY(0deg);background:#cc0022;}
-  20%{transform:rotateY(90deg);background:#aa0018;box-shadow:0 0 18px 4px #cc002255;}
-  40%{transform:rotateY(180deg);background:#cc0022;}
-  60%{transform:rotateY(270deg);background:#ee0030;box-shadow:0 0 24px 8px #ff003377;}
-  80%,100%{transform:rotateY(360deg);background:#cc0022;}
-}
-#logo-box::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.25),transparent 55%);
-  animation:logoShine 6s ease-in-out infinite;
-}
-@keyframes logoShine{0%,100%{opacity:0;}30%{opacity:.6;}60%{opacity:.1;}}
-#logo-text{
-  font-size:clamp(16px,3vw,28px);
-  font-weight:900;color:#fff;letter-spacing:1px;
-  position:relative;z-index:1;
-}
-#logo-info{display:flex;flex-direction:column;justify-content:center;min-width:0;}
-#ch-name{
-  font-size:clamp(13px,2.5vw,22px);
-  font-weight:900;color:#fff;letter-spacing:clamp(1px,0.5vw,3px);
-  line-height:1.1;white-space:nowrap;
-}
-#slogan{
-  font-size:clamp(9px,1.2vw,12px);
-  color:#ff6688;letter-spacing:.4px;margin-top:2px;
-  overflow:hidden;white-space:nowrap;
-  animation:sloganReveal 3s ease forwards,sloganGlow 4s ease-in-out 3s infinite;
-  width:0;
-}
-@keyframes sloganReveal{0%{width:0;opacity:0;}60%{opacity:1;}100%{width:min(180px,40vw);opacity:1;}}
-@keyframes sloganGlow{0%,100%{color:#ff6688;}50%{color:#ffaabb;text-shadow:0 0 8px #ff336655;}}
-
-/* LIVE BADGE */
-#live-badge{
-  background:#cc0022;color:#fff;
-  font-size:clamp(9px,1.5vw,13px);
-  font-weight:900;padding:3px clamp(6px,1.5vw,12px);
-  border-radius:3px;letter-spacing:1.5px;
-  animation:liveBlink 1.1s step-start infinite;
-  box-shadow:0 0 10px #cc002266;
-  white-space:nowrap;flex-shrink:0;
-}
-@keyframes liveBlink{0%,100%{opacity:1;}50%{opacity:.3;}}
-
-/* DATETIME */
-#datetime-area{text-align:right;flex-shrink:0;}
-#time-display{
-  font-size:clamp(13px,2.5vw,23px);
-  font-weight:700;color:#fff;letter-spacing:2px;
-  font-family:monospace;
-}
-#date-display{
-  font-size:clamp(8px,1vw,11px);
-  color:#aaa;margin-top:2px;letter-spacing:.4px;
-}
-
-/* ══════════ BREAKING BAR ══════════ */
-#breaking-bar{
-  width:100%;
-  height:clamp(30px,5vh,42px);
-  background:#0a0008;
-  border-bottom:1.5px solid #cc0022;
-  overflow:hidden;display:flex;align-items:center;
-  flex-shrink:0;position:relative;z-index:15;
-}
-#breaking-tag{
-  background:#cc0022;color:#fff;
-  font-size:clamp(9px,1.5vw,13px);
-  font-weight:900;
-  padding:0 clamp(8px,2vw,16px);
+#brk-tag{
+  background:var(--red);color:#fff;
+  font-size:clamp(8px,1.2vw,12px);font-weight:900;
+  padding:0 clamp(7px,1.5vw,16px);
   height:100%;display:flex;align-items:center;
   letter-spacing:1.5px;white-space:nowrap;flex-shrink:0;
-  position:relative;z-index:2;
-  animation:breakingFlash 1.6s ease-in-out infinite;
-}
-@keyframes breakingFlash{0%,100%{background:#cc0022;}50%{background:#ff0028;}}
-#breaking-tag::after{
-  content:'';position:absolute;right:-16px;top:0;width:0;height:0;
-  border-top:clamp(30px,5vh,42px) solid transparent;
-  border-left:18px solid #cc0022;
-  animation:arrowFlash 1.6s ease-in-out infinite;
-}
-@keyframes arrowFlash{0%,100%{border-left-color:#cc0022;}50%{border-left-color:#ff0028;}}
-#breaking-news-text{flex:1;overflow:hidden;padding-left:28px;}
-#breaking-inner{
-  display:inline-block;white-space:nowrap;
-  font-size:clamp(10px,1.5vw,13px);
-  color:#fff;font-weight:600;
-  animation:tickerBreak 30s linear infinite;
-}
-@keyframes tickerBreak{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
-.bsep{color:#cc0022;margin:0 clamp(10px,2vw,22px);}
-
-/* ══════════ MAIN AREA ══════════ */
-#main{
-  display:flex;flex:1;overflow:hidden;
-  position:relative;min-height:0;
-}
-
-/* ══════════ AD PANELS ══════════ */
-.ad-panel{
-  width:clamp(60px,10vw,100px);
-  min-width:clamp(60px,10vw,100px);
-  background:#08080f;
-  overflow:hidden;position:relative;
-  display:flex;flex-direction:column;align-items:center;
-  padding-top:8px;gap:6px;
-  border-right:1px solid #220011;
-  flex-shrink:0;
-}
-#ad-right{border-right:none;border-left:1px solid #220011;}
-.ad-label{
-  font-size:clamp(7px,1vw,9px);
-  color:#444;letter-spacing:1px;text-transform:uppercase;
-}
-.ad-slot{
-  width:calc(100% - 8px);border-radius:6px;overflow:hidden;
-  border:1px solid #330018;position:relative;
-}
-
-/* Ad slides */
-.ad-slide{
-  width:100%;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;position:absolute;top:0;left:0;
-}
-.ad-slide img{width:100%;height:100%;object-fit:cover;border-radius:5px;}
-.ad-slide-fallback{
-  width:100%;height:100%;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:3px;
-  font-size:10px;font-weight:700;text-align:center;line-height:1.3;padding:4px;
-}
-.slide-enter{animation:slideIn .6s ease forwards;}
-.slide-exit{animation:slideOut .6s ease forwards;}
-@keyframes slideIn{from{transform:translateY(100%);opacity:0;}to{transform:translateY(0);opacity:1;}}
-@keyframes slideOut{from{transform:translateY(0);opacity:1;}to{transform:translateY(-100%);opacity:0;}}
-
-/* On very small screens (<480px) hide ad panels */
-@media(max-width:479px){
-  .ad-panel{display:none;}
-}
-
-/* ══════════ VIDEO AREA ══════════ */
-#video-area{
-  flex:1;background:#060610;position:relative;overflow:hidden;
-  display:flex;flex-direction:column;min-width:0;
-}
-#live-screen{
-  flex:1;position:relative;
-  background:radial-gradient(ellipse at 30% 40%,#0d1825,#060610);
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-#scanlines{
-  position:absolute;inset:0;pointer-events:none;z-index:3;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.1) 2px,rgba(0,0,0,.1) 4px);
-}
-
-/* Studio lights */
-.studio-light{
-  position:absolute;top:-10px;width:1px;height:clamp(60px,12vh,120px);
-  background:linear-gradient(180deg,rgba(255,150,50,.35),transparent);
-  border-radius:1px;
-}
-#sl1{left:22%;}#sl2{left:50%;}#sl3{left:78%;}
-
-/* Anchor — scales with viewport */
-#anchor-wrap{z-index:1;display:flex;flex-direction:column;align-items:center;gap:0;}
-.anchor-fig{
-  width:clamp(70px,12vw,130px);
-  height:clamp(95px,16vh,180px);
+  animation:brkFlash 1.6s ease-in-out infinite;
   position:relative;
 }
-.anchor-head{
-  width:clamp(30px,5vw,54px);
-  height:clamp(33px,5.5vh,60px);
-  background:#c8a882;border-radius:50% 50% 45% 45%;
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  border:1px solid #a0886a;
-}
-.anchor-hair{
-  width:clamp(31px,5.2vw,56px);
-  height:clamp(14px,2.5vh,26px);
-  background:#2a1800;border-radius:50% 50% 0 0;
-  position:absolute;top:-2px;left:50%;transform:translateX(-50%);
-}
-.anchor-eyes{
-  position:absolute;
-  top:clamp(12px,2vh,24px);
-  left:50%;transform:translateX(-50%);
-  width:clamp(20px,3.5vw,36px);
-  display:flex;justify-content:space-between;
-}
-.eye{
-  width:clamp(4px,0.8vw,8px);
-  height:clamp(3px,0.5vh,5px);
-  background:#1a1008;border-radius:50%;
-}
-.anchor-suit{
-  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-  width:clamp(44px,8vw,82px);
-  height:clamp(55px,9vh,100px);
-  background:#1a2035;border-radius:6px 6px 0 0;
-  border-top:2px solid #cc0022;
-}
-.anchor-tie{
-  position:absolute;bottom:clamp(6px,1vh,12px);left:50%;transform:translateX(-50%);
-  width:clamp(7px,1.2vw,12px);
-  height:clamp(28px,5vh,52px);
-  background:#cc0022;border-radius:3px;
-  clip-path:polygon(30% 0%,70% 0%,88% 100%,12% 100%);
-}
-.anchor-mic{
-  position:absolute;
-  top:clamp(30px,5vh,54px);right:clamp(14px,2.5vw,26px);
-  width:3px;height:clamp(12px,2vh,20px);
-  background:#999;border-radius:2px;
-}
-.anchor-desk{
-  width:clamp(130px,22vw,240px);
-  height:clamp(10px,1.8vh,18px);
-  background:#1a2035;border-radius:4px;
-  border:1px solid #2a3050;margin-top:-2px;
-}
-.live-label{
-  font-size:clamp(9px,1.2vw,12px);
-  color:#445;margin-top:6px;letter-spacing:1px;
-}
+@keyframes brkFlash{0%,100%{background:var(--red);}50%{background:var(--red2);}}
+#brk-tag::after{content:'';position:absolute;right:-15px;top:0;width:0;height:0;border-top:clamp(26px,4vh,42px) solid transparent;border-left:17px solid var(--red);animation:brkArrow 1.6s ease-in-out infinite;}
+@keyframes brkArrow{0%,100%{border-left-color:var(--red);}50%{border-left-color:var(--red2);}}
+#brk-scroll{flex:1;overflow:hidden;padding-left:26px;}
+#brk-inner{display:inline-block;white-space:nowrap;font-size:clamp(9px,1.3vw,13px);color:#fff;font-weight:600;animation:brkTick 35s linear infinite;}
+@keyframes brkTick{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
+.bsep{color:var(--red);margin:0 clamp(8px,1.5vw,20px);}
 
-/* Watermark */
-#atv-watermark{
-  position:absolute;
-  top:clamp(6px,1.5vh,14px);
-  right:clamp(8px,2vw,18px);
-  z-index:4;
-  font-size:clamp(16px,3.5vw,32px);
-  font-weight:900;color:rgba(204,0,34,.3);letter-spacing:2px;
-}
+/* ═══ MAIN AREA ═══ */
+#main{flex:1;display:flex;overflow:hidden;position:relative;min-height:0;}
 
-/* Channel info bar */
-#channel-bar{
-  position:absolute;bottom:clamp(36px,7vh,54px);left:0;right:0;z-index:5;
-  background:rgba(0,0,0,.78);
-  padding:4px clamp(8px,2vw,16px);
-  display:flex;align-items:center;gap:8px;
-  border-top:1px solid #cc0022;
-  flex-wrap:wrap;
+/* ═══ AD PANELS ═══ */
+.ad-panel{
+  width:clamp(60px,9vw,100px);flex-shrink:0;
+  background:rgba(8,0,14,.8);overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;
+  padding:6px 4px;gap:5px;
 }
-#ch-label{
-  font-size:clamp(9px,1.2vw,11px);
-  color:#cc0022;font-weight:900;white-space:nowrap;
-}
-#ch-title{
-  font-size:clamp(10px,1.5vw,14px);
-  color:#fff;font-weight:600;
-  transition:opacity .4s;
-  word-break:break-word;
-}
+#ad-l{border-right:1px solid rgba(204,0,34,.15);}
+#ad-r{border-left:1px solid rgba(204,0,34,.15);}
+.ad-lbl{font-size:clamp(6px,.8vw,8px);color:#443344;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+.ad-slot{width:calc(100% - 6px);border-radius:8px;overflow:hidden;border:1px solid rgba(204,0,34,.2);position:relative;background:#0d000f;transition:opacity .35s;}
+.ad-fallback{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px;text-align:center;font-size:9px;font-weight:700;line-height:1.3;}
+/* hide ads on very small screens */
+@media(max-width:480px){.ad-panel{display:none;}}
 
-/* ══════════ HEADLINE TICKER ══════════ */
+/* ═══ VIDEO / CAMERA AREA ═══ */
+#video-area{flex:1;display:flex;flex-direction:column;position:relative;min-width:0;background:#050510;}
+#screen{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+#scanlines-overlay{position:absolute;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);}
+#noise-overlay{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+#camera-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;display:none;}
+#camera-video.active{display:block;}
+#studio-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 30% 40%,#0d1825,#060610);}
+.studio-light{position:absolute;top:0;width:2px;height:clamp(50px,10vh,130px);background:linear-gradient(180deg,rgba(255,160,60,.4),transparent);}
+#sl1{left:20%;}#sl2{left:50%;}#sl3{left:80%;}
+
+/* ANCHOR ART */
+#anchor{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;}
+.a-head{width:clamp(32px,5.5vw,68px);height:clamp(36px,6.5vh,76px);background:#c8a882;border-radius:50% 50% 45% 45%;position:relative;border:1.5px solid #a08060;}
+.a-hair{position:absolute;top:-3px;left:0;right:0;height:45%;background:#1e1000;border-radius:50% 50% 0 0;}
+.a-eyes{position:absolute;bottom:38%;left:50%;transform:translateX(-50%);display:flex;gap:clamp(5px,1vw,12px);}
+.a-eye{width:clamp(4px,.8vw,9px);height:clamp(3px,.6vh,6px);background:#1a0800;border-radius:50%;}
+.a-body{width:clamp(50px,8.5vw,100px);height:clamp(50px,8vh,100px);background:#1a2040;border-radius:6px 6px 0 0;border-top:2.5px solid var(--red);position:relative;margin-top:-2px;}
+.a-tie{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:clamp(7px,1.2vw,15px);height:clamp(26px,5vh,60px);background:var(--red);border-radius:2px;clip-path:polygon(25% 0%,75% 0%,90% 100%,10% 100%);}
+.a-mic{position:absolute;top:14px;right:9px;width:3px;height:clamp(12px,2.2vh,26px);background:#888;border-radius:2px;}
+.a-desk{width:clamp(120px,20vw,240px);height:clamp(10px,1.8vh,20px);background:#1a2040;border-radius:5px;border:1px solid #2a3060;}
+.a-lbl{font-size:clamp(8px,1.1vw,12px);color:#445566;margin-top:6px;letter-spacing:1px;}
+
+/* WATERMARK */
+#watermark{position:absolute;top:clamp(6px,1.2vh,16px);right:clamp(8px,1.5vw,20px);z-index:5;font-size:clamp(14px,2.6vw,30px);font-weight:900;color:rgba(204,0,34,.25);letter-spacing:3px;pointer-events:none;}
+
+/* LOWER THIRD */
+#lower-third{
+  position:absolute;bottom:0;left:0;right:0;z-index:6;
+  background:linear-gradient(0deg,rgba(0,0,0,.9),transparent);
+  padding:clamp(5px,1.2vh,12px) clamp(8px,1.5vw,18px) 4px;
+}
+#lt-inner{background:rgba(10,0,18,.85);border:1px solid rgba(204,0,34,.4);border-radius:6px;padding:clamp(5px,.9vh,10px) clamp(8px,1.5vw,16px);display:flex;align-items:center;gap:8px;}
+#lt-live{background:var(--red);color:#fff;font-size:clamp(7px,1vw,10px);font-weight:900;padding:3px 7px;border-radius:3px;letter-spacing:1px;white-space:nowrap;flex-shrink:0;}
+#lt-divider{width:1px;height:clamp(14px,2.5vh,26px);background:rgba(204,0,34,.4);}
+#lt-content{flex:1;min-width:0;}
+#lt-title{font-size:clamp(10px,1.6vw,17px);font-weight:900;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .4s;}
+#lt-sub{font-size:clamp(7px,1vw,11px);color:var(--accent);margin-top:2px;letter-spacing:.5px;}
+
+/* ═══ HEADLINE TICKER ═══ */
 #headline-bar{
-  height:clamp(36px,6vh,52px);
-  background:#0a0008;
-  border-top:2.5px solid #cc0022;
-  display:flex;align-items:center;overflow:hidden;
-  position:relative;z-index:6;flex-shrink:0;
+  height:clamp(32px,5.5vh,50px);flex-shrink:0;
+  background:rgba(8,0,14,.95);border-top:2px solid var(--red);
+  display:flex;align-items:center;overflow:hidden;position:relative;z-index:8;
 }
-#headline-strip{
-  background:#cc0022;color:#fff;
-  font-size:clamp(9px,1.3vw,13px);
-  font-weight:900;
-  padding:0 clamp(8px,1.5vw,14px);
-  height:100%;display:flex;align-items:center;gap:5px;
-  letter-spacing:.8px;flex-shrink:0;
-  border-right:2px solid #ff2244;
-  animation:hlLabelPop 2.5s ease-in-out infinite;
-  white-space:nowrap;
+#hl-label{
+  background:var(--red);color:#fff;height:100%;
+  display:flex;align-items:center;gap:6px;
+  padding:0 clamp(7px,1.2vw,14px);
+  font-size:clamp(8px,1.2vw,13px);font-weight:900;letter-spacing:1px;
+  white-space:nowrap;flex-shrink:0;border-right:2px solid var(--red2);
+  animation:hlPop 2.5s ease-in-out infinite;
 }
-@keyframes hlLabelPop{0%,100%{background:#cc0022;}50%{background:#ee0030;}}
-.hl-dot{
-  width:clamp(5px,0.8vw,8px);
-  height:clamp(5px,0.8vw,8px);
-  background:#fff;border-radius:50%;animation:dotPop 1s ease-in-out infinite;flex-shrink:0;
-}
-@keyframes dotPop{0%,100%{transform:scale(1);}50%{transform:scale(1.7);}}
-#headline-text-wrap{flex:1;overflow:hidden;}
-#headline-text{
-  display:inline-block;white-space:nowrap;
-  font-size:clamp(10px,1.5vw,13px);
-  color:#fff;padding:0 30px;
-  animation:headlineTicker 80s linear infinite;
-}
-@keyframes headlineTicker{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
+@keyframes hlPop{0%,100%{background:var(--red);}50%{background:var(--red2);}}
+.hl-dot{width:clamp(4px,.7vw,8px);height:clamp(4px,.7vw,8px);background:#fff;border-radius:50%;animation:dotAnim 1s ease-in-out infinite;}
+@keyframes dotAnim{0%,100%{transform:scale(1);}50%{transform:scale(1.8);}}
+#hl-scroll{flex:1;overflow:hidden;}
+#hl-inner{display:inline-block;white-space:nowrap;font-size:clamp(9px,1.4vw,14px);color:#fff;font-weight:600;animation:hlTick 90s linear infinite;padding:0 16px;}
+@keyframes hlTick{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
 
-/* ══════════ LANDSCAPE PHONE FIX ══════════ */
-@media(max-height:360px){
-  #topbar{height:38px;}
-  #breaking-bar{height:26px;}
-  #headline-bar{height:30px;}
-  .anchor-fig{display:none;}
-  .anchor-desk{display:none;}
+/* ═══ BOTTOM BAR — শুধু স্ক্রল, কোনো LIVE বা ঘড়ি নাই ═══ */
+#bottom-bar{
+  position:relative;z-index:20;flex-shrink:0;
+  display:flex;align-items:center;
+  height:clamp(36px,5.5vh,56px);
+  background:linear-gradient(0deg,rgba(4,0,12,.98),rgba(4,0,12,.85));
+  border-top:1px solid rgba(204,0,34,.3);
+  overflow:hidden;
+}
+#bb-scroll{flex:1;overflow:hidden;padding:0 clamp(10px,2vw,24px);}
+#bb-inner{display:inline-block;white-space:nowrap;font-size:clamp(11px,1.8vw,20px);color:#fff;font-weight:600;animation:bbTick 38s linear infinite;}
+@keyframes bbTick{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
+.tsep{color:var(--red);margin:0 clamp(10px,2vw,26px);}
+
+/* ═══ BREAK SCREEN ═══ */
+#break-screen{
+  position:absolute;inset:0;z-index:50;
+  display:none;align-items:center;justify-content:center;flex-direction:column;gap:clamp(7px,1.8vh,22px);
+  background:linear-gradient(135deg,#050012 0%,#0a0018 40%,#000 100%);
+}
+#break-screen.active{display:flex;}
+#brk-logo-big{
+  width:clamp(70px,13vw,150px);height:clamp(62px,11vw,130px);
+  background:var(--red);border-radius:clamp(8px,2vw,18px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(38px,9vw,90px);font-weight:900;color:#fff;
+  animation:brkLogoPulse 2s ease-in-out infinite,logoSpin 7s ease-in-out infinite;
+  box-shadow:0 0 clamp(28px,5.5vw,75px) rgba(204,0,34,.5);
+  position:relative;overflow:hidden;
+}
+@keyframes brkLogoPulse{0%,100%{box-shadow:0 0 50px rgba(204,0,34,.4);}50%{box-shadow:0 0 90px rgba(204,0,34,.8),0 0 130px rgba(204,0,34,.3);}}
+#brk-logo-big::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.25),transparent 55%);}
+#brk-rings{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.brk-ring{position:absolute;border-radius:50%;border:1px solid rgba(204,0,34,.18);left:50%;top:50%;transform:translate(-50%,-50%) scale(0);animation:ringExpand 4s ease-out infinite;}
+.brk-ring:nth-child(1){width:min(40vw,400px);height:min(40vw,400px);animation-delay:0s;}
+.brk-ring:nth-child(2){width:min(65vw,650px);height:min(65vw,650px);animation-delay:1.3s;}
+.brk-ring:nth-child(3){width:min(90vw,900px);height:min(90vw,900px);animation-delay:2.6s;}
+@keyframes ringExpand{0%{transform:translate(-50%,-50%) scale(0);opacity:.6;}100%{transform:translate(-50%,-50%) scale(1);opacity:0;}}
+#brk-ch-name{font-size:clamp(28px,7.5vw,85px);font-weight:900;color:#fff;letter-spacing:clamp(5px,1.8vw,16px);text-shadow:0 0 clamp(18px,4.5vw,55px) rgba(204,0,34,.6);animation:nameGlow 3.5s ease-in-out infinite;white-space:nowrap;}
+@keyframes nameGlow{0%,100%{text-shadow:0 0 40px rgba(204,0,34,.5);}50%{text-shadow:0 0 90px rgba(204,0,34,.9),0 0 130px rgba(204,0,34,.35);}}
+#brk-divider{width:0;height:clamp(2px,.3vw,3px);background:linear-gradient(90deg,transparent,var(--red),var(--red2),var(--red),transparent);animation:divExpand 1.5s ease-out .5s forwards;}
+@keyframes divExpand{0%{width:0;opacity:0;}100%{width:clamp(130px,28vw,460px);opacity:1;}}
+#brk-slogan{font-size:clamp(11px,2vw,24px);color:var(--accent);letter-spacing:clamp(2px,.5vw,6px);font-weight:600;opacity:0;animation:sloganFade 1s ease .8s forwards;white-space:nowrap;}
+@keyframes sloganFade{0%{opacity:0;transform:translateY(12px);}100%{opacity:1;transform:translateY(0);}}
+#brk-msg{font-size:clamp(14px,3vw,38px);font-weight:900;color:#fff;letter-spacing:clamp(2px,.5vw,6px);animation:msgBlink 2s ease-in-out infinite;margin-top:6px;}
+@keyframes msgBlink{0%,100%{opacity:1;}50%{opacity:.3;}}
+#brk-sub{font-size:clamp(10px,1.8vw,20px);color:var(--accent);letter-spacing:clamp(1px,.3vw,3px);}
+#brk-countdown{font-size:clamp(48px,13vw,120px);font-weight:900;color:var(--red);font-family:monospace;text-shadow:0 0 clamp(18px,4.5vw,52px) rgba(204,0,34,.55);animation:cdPulse 1s ease-in-out infinite;}
+@keyframes cdPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+#brk-bd-flags{display:flex;gap:clamp(18px,4.5vw,55px);margin-top:8px;}
+.brk-flag{animation:flagSway 2.5s ease-in-out infinite;}
+.brk-flag:nth-child(2){animation-delay:.4s;}
+@keyframes flagSway{0%,100%{transform:skewX(-2deg);}50%{transform:skewX(3deg);}}
+
+/* ═══ NEWS FLASH ═══ */
+#flash-overlay{position:absolute;inset:0;z-index:60;background:var(--red);opacity:0;pointer-events:none;transition:opacity .3s;}
+
+/* ═══ CAMERA PANEL ═══ */
+#cam-panel{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:25;background:rgba(8,0,18,.92);
+  border:1px solid rgba(204,0,34,.4);border-radius:12px;
+  padding:clamp(14px,2.5vh,28px) clamp(18px,3.5vw,38px);
+  text-align:center;backdrop-filter:blur(8px);
+  display:none;max-width:90vw;
+}
+#cam-panel.active{display:block;}
+#cam-panel h2{font-size:clamp(15px,2.3vw,22px);color:#fff;font-weight:700;margin-bottom:10px;}
+#cam-panel p{font-size:clamp(10px,1.4vw,13px);color:var(--muted);margin-bottom:18px;line-height:1.6;}
+#cam-options{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.cam-btn{background:var(--red);color:#fff;border:none;padding:clamp(7px,1.3vh,12px) clamp(12px,2.5vw,24px);border-radius:8px;font-size:clamp(10px,1.4vw,15px);font-family:inherit;font-weight:700;cursor:pointer;letter-spacing:1px;transition:background .2s,transform .1s;white-space:nowrap;}
+.cam-btn:hover{background:var(--red2);transform:scale(1.02);}
+.cam-btn.secondary{background:transparent;border:1px solid rgba(204,0,34,.5);color:var(--accent);}
+.cam-btn.secondary:hover{background:rgba(204,0,34,.15);}
+
+/* ═══ CONTROL BUTTONS ═══ */
+#ctrl{
+  position:absolute;right:clamp(6px,1.5vw,22px);
+  bottom:clamp(48px,10vh,80px);
+  z-index:30;display:flex;flex-direction:column;gap:6px;
+}
+.cbtn{
+  background:rgba(140,0,20,.85);color:#fff;
+  border:1px solid rgba(204,0,34,.5);border-radius:7px;
+  font-size:clamp(8px,1.1vw,12px);font-family:inherit;font-weight:700;
+  padding:clamp(4px,.9vh,9px) clamp(8px,1.5vw,16px);cursor:pointer;letter-spacing:.5px;
+  transition:background .2s;white-space:nowrap;
+}
+.cbtn:hover,.cbtn.active{background:var(--red);box-shadow:0 0 10px rgba(204,0,34,.4);}
+@media(max-width:480px){
+  #ctrl{flex-direction:row;right:4px;bottom:clamp(42px,8vh,65px);flex-wrap:wrap;justify-content:flex-end;max-width:210px;}
+}
+@media(max-height:380px){#ctrl{display:none;}}
+
+/* ═══ PARTICLES ═══ */
+#particles{position:absolute;inset:0;z-index:1;opacity:.18;pointer-events:none;}
+
+/* ═══ RESPONSIVE TWEAKS ═══ */
+@media(max-width:360px){
+  #hd-tag{display:none;}
+  #ch-slogan{display:none;}
+}
+@media(max-height:500px){
+  #breaking-bar{display:none;}
+  .ad-panel{display:none;}
 }
 </style>
 </head>
 <body>
-<div id="tv">
+<div id="app">
+
+  <!-- BG FX -->
+  <div id="bg-fx">
+    <div id="bg-radial"></div>
+    <div id="bg-grid"></div>
+    <canvas id="particles"></canvas>
+    <div class="scan-h"></div><div class="scan-h"></div><div class="scan-h"></div>
+    <div class="vbar" id="vb-l"></div>
+    <div class="vbar" id="vb-r"></div>
+  </div>
+  <div class="corner" id="c-tl"></div>
+  <div class="corner" id="c-tr"></div>
+  <div class="corner" id="c-bl"></div>
+  <div class="corner" id="c-br"></div>
+
+  <!-- BREAK SCREEN -->
+  <div id="break-screen">
+    <div id="brk-rings">
+      <div class="brk-ring"></div><div class="brk-ring"></div><div class="brk-ring"></div>
+    </div>
+    <div id="brk-logo-big">A</div>
+    <div id="brk-ch-name">A TV</div>
+    <div id="brk-divider"></div>
+    <div id="brk-slogan">অবিরত সত্যের সাথে</div>
+    <div id="brk-bd-flags">
+      <svg class="brk-flag" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg" style="width:clamp(55px,9vw,95px);height:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,.5));">
+        <rect width="180" height="120" fill="#006a4e"/><circle cx="84" cy="60" r="36" fill="#f42a41"/>
+      </svg>
+      <svg class="brk-flag" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg" style="width:clamp(55px,9vw,95px);height:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,.5));">
+        <rect width="180" height="120" fill="#006a4e"/><circle cx="84" cy="60" r="36" fill="#f42a41"/>
+      </svg>
+    </div>
+    <div id="brk-msg">বিরতিতে আছি</div>
+    <div id="brk-sub">একটু পরেই ফিরে আসছি</div>
+     <div id="brk-sub"><small>A project By- MD.AL-AMIN</small></div>
+    <div id="brk-countdown" style="display:none;">00:00</div>
+  </div>
+
+  <!-- FLASH OVERLAY -->
+  <div id="flash-overlay"></div>
 
   <!-- TOP BAR -->
   <div id="topbar">
-    <div id="logo-area">
-      <div id="logo-box"><span id="logo-text">A</span></div>
-      <div id="logo-info">
-        <div id="ch-name">A TV</div>
-        <div id="slogan">অবিরত সত্যের সাথে</div>
-      </div>
+    <div id="logo-box">A</div>
+    <div id="logo-info">
+      <div id="ch-name">A TV</div>
+      <div id="ch-slogan">অবিরত সত্যের সাথে</div>
     </div>
-    <div id="live-badge">● LIVE</div>
-    <div id="datetime-area">
-      <div id="time-display">00:00:00</div>
-      <div id="date-display">লোড হচ্ছে...</div>
+    <div id="tb-sep"></div>
+    <div id="live-pill">● LIVE</div>
+    <div id="tb-spacer"></div>
+    <div id="tb-right">
+      <div id="hd-tag">HD BROADCAST</div>
+      <div id="clock-box">
+        <div id="clock">00:00:00</div>
+        <div id="dateline">লোড হচ্ছে...</div>
+      </div>
     </div>
   </div>
 
-  <!-- BREAKING NEWS -->
+  <!-- BREAKING BAR -->
   <div id="breaking-bar">
-    <div id="breaking-tag">⚡ ব্রেকিং</div>
-    <div id="breaking-news-text">
-      <span id="breaking-inner">
+    <div id="brk-tag">⚡ ব্রেকিং নিউজ</div>
+    <div id="brk-scroll">
+      <span id="brk-inner">
         সরকার নতুন আর্থিক নীতি ঘোষণা করেছে — বিস্তারিত জানতে সাথেই থাকুন
         <span class="bsep">◆</span>
         ঢাকায় আন্তর্জাতিক বাণিজ্য সম্মেলন আগামীকাল শুরু
@@ -380,192 +370,317 @@ html,body{
         <span class="bsep">◆</span>
         জাতীয় ক্রিকেট দল দক্ষিণ এশিয়া সিরিজে আবারও জয়ী
         <span class="bsep">◆</span>
-        দেশের সব বিশ্ববিদ্যালয়ে ভর্তি পরীক্ষার নতুন তারিখ নির্ধারণ
-        <span class="bsep">◆</span>
         পদ্মা সেতুতে যানবাহন চলাচলে নতুন রেকর্ড স্থাপিত
+        <span class="bsep">◆</span>
+        দেশের রপ্তানি আয় এই বছর রেকর্ড স্পর্শ করেছে
       </span>
     </div>
   </div>
 
-  <!-- MAIN -->
+  <!-- MAIN AREA -->
   <div id="main">
-
-    <!-- LEFT AD -->
-    <div class="ad-panel" id="ad-left">
-      <div class="ad-label">বিজ্ঞাপন</div>
-      <div class="ad-slot" id="adslot-l1" style="height:55%;"></div>
-      <div class="ad-slot" id="adslot-l2" style="height:35%;"></div>
+    <!-- LEFT ADS -->
+    <div class="ad-panel" id="ad-l">
+      <div class="ad-lbl">বিজ্ঞাপন</div>
+      <div class="ad-slot" id="adL1" style="flex:1;"></div>
+      <div class="ad-slot" id="adL2" style="height:34%;"></div>
     </div>
 
-    <!-- VIDEO -->
+    <!-- VIDEO AREA -->
     <div id="video-area">
-      <div id="live-screen">
-        <div class="studio-light" id="sl1"></div>
-        <div class="studio-light" id="sl2"></div>
-        <div class="studio-light" id="sl3"></div>
-        <div id="scanlines"></div>
-        <div id="anchor-wrap">
-          <div class="anchor-fig">
-            <div class="anchor-head">
-              <div class="anchor-hair"></div>
-              <div class="anchor-eyes"><div class="eye"></div><div class="eye"></div></div>
-            </div>
-            <div class="anchor-suit"><div class="anchor-tie"></div></div>
-            <div class="anchor-mic"></div>
-          </div>
-          <div class="anchor-desk"></div>
-          <div class="live-label">সরাসরি সম্প্রচার</div>
+      <div id="screen">
+        <div id="studio-bg">
+          <div class="studio-light" id="sl1"></div>
+          <div class="studio-light" id="sl2"></div>
+          <div class="studio-light" id="sl3"></div>
         </div>
-        <div id="atv-watermark">A TV</div>
-        <div id="channel-bar">
-          <span id="ch-label">▶ সরাসরি</span>
-          <span id="ch-title">সন্ধ্যার প্রধান সংবাদ — উপস্থাপনায়: মোঃ রবিন মিয়া</span>
+        <div id="scanlines-overlay"></div>
+        <div id="noise-overlay"></div>
+        <video id="camera-video" autoplay playsinline muted></video>
+        <div id="anchor">
+          <div class="a-head">
+            <div class="a-hair"></div>
+            <div class="a-eyes"><div class="a-eye"></div><div class="a-eye"></div></div>
+          </div>
+          <div class="a-body">
+            <div class="a-tie"></div>
+            <div class="a-mic"></div>
+          </div>
+          <div class="a-desk"></div>
+          <div class="a-lbl">সরাসরি সম্প্রচার</div>
+          <div class="a-lbl"><small>A Project By- MD.AL-AMIN(IIT-JU)</small></div>
+        </div>
+        <div id="watermark">A TV</div>
+        <div id="lower-third">
+          <div id="lt-inner">
+            <div id="lt-live">▶ সরাসরি</div>
+            <div id="lt-divider"></div>
+            <div id="lt-content">
+              <div id="lt-title">সন্ধ্যার প্রধান সংবাদ — উপস্থাপনায়: মোঃ আফতাফ হোসেন</div>
+              <div id="lt-sub">A TV — অবিরত সত্যের সাথে</div>
+            </div>
+          </div>
+        </div>
+        <div id="cam-panel">
+          <h2>📡 ক্যামেরা চালু করুন</h2>
+          <p>লাইভ সম্প্রচারের জন্য আপনার ফোন বা কম্পিউটারের ক্যামেরা ব্যবহার করুন।<br>ব্রাউজার ক্যামেরার অনুমতি চাইবে — অনুমতি দিন।</p>
+          <div id="cam-options">
+            <button class="cam-btn" onclick="startCamera('user')">📷 সামনের ক্যামেরা</button>
+            <button class="cam-btn" onclick="startCamera('environment')">🎥 পেছনের ক্যামেরা</button>
+            <button class="cam-btn secondary" onclick="closeCamPanel()">এড়িয়ে যান</button>
+          </div>
         </div>
       </div>
 
-      <!-- HEADLINE -->
+      <!-- HEADLINE TICKER -->
       <div id="headline-bar">
-        <div id="headline-strip">
-          <div class="hl-dot"></div>
-          শিরোনাম
-        </div>
-        <div id="headline-text-wrap">
-          <span id="headline-text">
-            ● সরকার নতুন বাজেট ঘোষণা করবে আগামী সপ্তাহে &nbsp;&nbsp;&nbsp;
-            ● দেশে বিদেশি বিনিয়োগ ৩০% বৃদ্ধি পেয়েছে &nbsp;&nbsp;&nbsp;
-            ● জাতিসংঘে বাংলাদেশের প্রতিনিধিত্ব আরও শক্তিশালী &nbsp;&nbsp;&nbsp;
-            ● পদ্মা সেতুতে রেকর্ড যানবাহন চলাচল &nbsp;&nbsp;&nbsp;
-            ● ঢাকার বায়ু মান উন্নয়নে সরকারি পদক্ষেপ ঘোষণা &nbsp;&nbsp;&nbsp;
-            ● জাতীয় ক্রিকেট দলের বিজয় উৎসব সারাদেশে &nbsp;&nbsp;&nbsp;
-            ● আগামী মাসে জাতীয় নির্বাচনী প্রস্তুতি শুরু &nbsp;&nbsp;&nbsp;
-            ● চট্টগ্রাম বন্দরে নতুন জাহাজ চলাচল শুরু &nbsp;&nbsp;&nbsp;
-            ● দেশের রপ্তানি আয় এই বছর রেকর্ড স্পর্শ করেছে &nbsp;&nbsp;&nbsp;
+        <div id="hl-label"><div class="hl-dot"></div>শিরোনাম</div>
+        <div id="hl-scroll">
+          <span id="hl-inner">
+            ● সরকার নতুন বাজেট ঘোষণা করবে আগামী সপ্তাহে &nbsp;&nbsp;
+            ● দেশে বিদেশি বিনিয়োগ ৩০% বৃদ্ধি পেয়েছে &nbsp;&nbsp;
+            ● জাতিসংঘে বাংলাদেশের প্রতিনিধিত্ব আরও শক্তিশালী &nbsp;&nbsp;
+            ● পদ্মা সেতুতে রেকর্ড যানবাহন চলাচল &nbsp;&nbsp;
+            ● ঢাকার বায়ু মান উন্নয়নে সরকারি পদক্ষেপ ঘোষণা &nbsp;&nbsp;
+            ● জাতীয় ক্রিকেট দলের বিজয় উৎসব সারাদেশে &nbsp;&nbsp;
+            ● চট্টগ্রাম বন্দরে নতুন জাহাজ চলাচল শুরু &nbsp;&nbsp;
+            ● দেশের রপ্তানি আয় এই বছর রেকর্ড স্পর্শ করেছে &nbsp;&nbsp;
           </span>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT AD -->
-    <div class="ad-panel" id="ad-right">
-      <div class="ad-label">বিজ্ঞাপন</div>
-      <div class="ad-slot" id="adslot-r1" style="height:55%;"></div>
-      <div class="ad-slot" id="adslot-r2" style="height:35%;"></div>
+    <!-- RIGHT ADS -->
+    <div class="ad-panel" id="ad-r">
+      <div class="ad-lbl">বিজ্ঞাপন</div>
+      <div class="ad-slot" id="adR1" style="flex:1;"></div>
+      <div class="ad-slot" id="adR2" style="height:34%;"></div>
     </div>
+  </div>
 
-  </div><!-- /main -->
-</div><!-- /tv -->
+  <!-- BOTTOM BAR — শুধু স্ক্রল টেক্সট -->
+  <div id="bottom-bar">
+    <div id="bb-scroll">
+      <span id="bb-inner">
+        সরকার নতুন আর্থিক নীতি ঘোষণা করেছে — বিস্তারিত জানতে সাথেই থাকুন
+        <span class="tsep">◆</span>
+        ঢাকায় আন্তর্জাতিক বাণিজ্য সম্মেলন আগামীকাল শুরু
+        <span class="tsep">◆</span>
+        চট্টগ্রাম বন্দরে রেকর্ড পণ্য খালাস সম্পন্ন
+        <span class="tsep">◆</span>
+        জাতীয় ক্রিকেট দল দক্ষিণ এশিয়া সিরিজে আবারও জয়ী
+        <span class="tsep">◆</span>
+        পদ্মা সেতুতে যানবাহন চলাচলে নতুন রেকর্ড স্থাপিত
+        <span class="tsep">◆</span>
+        দেশের রপ্তানি আয় এই বছর রেকর্ড স্পর্শ করেছে
+      </span>
+    </div>
+  </div>
+
+  <!-- CONTROL BUTTONS -->
+  <div id="ctrl">
+    <button class="cbtn active" onclick="setMode('live')">📺 লাইভ</button>
+    <button class="cbtn" onclick="setMode('break',60)">⏸ বিরতি ৬০s</button>
+    <button class="cbtn" onclick="setMode('break',120)">⏸ বিরতি ২মিন</button>
+    <button class="cbtn" onclick="openCamPanel()">📷 ক্যামেরা</button>
+    <button class="cbtn" onclick="stopCamera()">🚫 ক্যামেরা বন্ধ</button>
+  </div>
+
+</div>
 
 <script>
-/* ── CLOCK ── */
+/* ═══ CLOCK — বাংলাদেশ সময় (UTC+6) ═══ */
 const DAYS=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
 const MONTHS=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
-const pad=n=>String(n).padStart(2,'0');
-function updateClock(){
-  const n=new Date();
-  document.getElementById('time-display').textContent=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
-  document.getElementById('date-display').textContent=DAYS[n.getDay()]+', '+n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();
-}
-updateClock();setInterval(updateClock,1000);
+const p2=n=>String(n).padStart(2,'0');
 
-/* ── CHANNEL TITLE ROTATE ── */
+function getBDTime(){
+  const now=new Date();
+  // UTC+6 = Bangladesh Standard Time
+  const utc=now.getTime()+now.getTimezoneOffset()*60000;
+  return new Date(utc+6*3600000);
+}
+
+function updateClock(){
+  const d=getBDTime();
+  const ts=p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds());
+  const ds=DAYS[d.getDay()]+', '+d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear();
+  document.getElementById('clock').textContent=ts;
+  document.getElementById('dateline').textContent=ds+' (BST)';
+}
+updateClock();
+setInterval(updateClock,1000);
+
+/* ═══ PARTICLES ═══ */
+(function(){
+  const cv=document.getElementById('particles');
+  const resize=()=>{cv.width=window.innerWidth;cv.height=window.innerHeight;};
+  resize();window.addEventListener('resize',resize);
+  const ctx=cv.getContext('2d');
+  const N=70;
+  const pts=Array.from({length:N},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3}));
+  function frame(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>cv.width)p.vx*=-1;
+      if(p.y<0||p.y>cv.height)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,1.5,0,Math.PI*2);
+      ctx.fillStyle='rgba(204,0,34,.6)';ctx.fill();
+    });
+    ctx.strokeStyle='rgba(204,0,34,.18)';ctx.lineWidth=.7;
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);
+      if(d<140){ctx.globalAlpha=(1-d/140)*.3;ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke();ctx.globalAlpha=1;}
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ═══ LOWER THIRD ROTATE ═══ */
 const titles=[
-  'সন্ধ্যার প্রধান সংবাদ — উপস্থাপনায়: মোঃ রবিন মিয়া',
+  'সন্ধ্যার প্রধান সংবাদ — উপস্থাপনায়: মোঃ আফতাফ হোসেন',
   'বিশেষ প্রতিবেদন: দেশের অর্থনৈতিক অগ্রগতি',
   'সরাসরি: জাতীয় সংসদ অধিবেশন',
   'খেলার খবর: টাইগারদের বিজয় উৎসব',
-  'আন্তর্জাতিক সংবাদ — বিশেষ সংস্করণ',
+  'আন্তর্জাতিক সংবাদ — বিশেষ সংস্করণ'
 ];
 let ti=0;
 setInterval(()=>{
   ti=(ti+1)%titles.length;
-  const el=document.getElementById('ch-title');
+  const el=document.getElementById('lt-title');
   el.style.opacity='0';
   setTimeout(()=>{el.textContent=titles[ti];el.style.opacity='1';},350);
-},7000);
+},8000);
 
-/* ── AD SYSTEM ── */
-const adData={
-  'adslot-l1':[
-    {type:'image',src:'b.png',caption:'বিকাশে টাকা পাঠান'},
-    {type:'image',src:'neonscan.jpeg',caption:'আপনার ভার্চুয়াল নিরাপত্তায়'},
-    {type:'image',src:'Acash.jpeg',caption:'নিরাপদ আপনার টাকা'},
+/* ═══ CAMERA ═══ */
+let mediaStream=null;
+function openCamPanel(){document.getElementById('cam-panel').classList.add('active');}
+function closeCamPanel(){document.getElementById('cam-panel').classList.remove('active');}
+async function startCamera(facing){
+  closeCamPanel();
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:facing,width:{ideal:1920},height:{ideal:1080}},audio:false});
+    mediaStream=stream;
+    const vid=document.getElementById('camera-video');
+    vid.srcObject=stream;vid.classList.add('active');
+    document.getElementById('anchor').style.display='none';
+    document.getElementById('studio-bg').style.opacity='0.3';
+    flash();
+  }catch(e){
+    alert('ক্যামেরা চালু করা সম্ভব হয়নি।\n'+e.message);
+  }
+}
+function stopCamera(){
+  if(mediaStream){mediaStream.getTracks().forEach(t=>t.stop());mediaStream=null;}
+  const vid=document.getElementById('camera-video');
+  vid.srcObject=null;vid.classList.remove('active');
+  document.getElementById('anchor').style.display='flex';
+  document.getElementById('studio-bg').style.opacity='1';
+}
+
+/* ═══ MODE SYSTEM ═══ */
+let breakTimer=null;
+const livePill=document.getElementById('live-pill');
+const breakScreen=document.getElementById('break-screen');
+const cdEl=document.getElementById('brk-countdown');
+const allBtns=document.querySelectorAll('.cbtn');
+
+function flash(){
+  const fo=document.getElementById('flash-overlay');
+  fo.style.opacity='.5';
+  setTimeout(()=>fo.style.opacity='0',400);
+}
+function setMode(mode,duration){
+  allBtns.forEach(b=>b.classList.remove('active'));
+  clearInterval(breakTimer);
+  if(mode==='live'){
+    breakScreen.classList.remove('active');
+    livePill.textContent='● LIVE';livePill.style.background='var(--red)';
+    allBtns[0].classList.add('active');
+    flash();
+  } else if(mode==='break'){
+    breakScreen.classList.add('active');
+    livePill.textContent='⏸ বিরতি';livePill.style.background='#884400';
+    allBtns[1].classList.add('active');
+    let secs=parseInt(duration)||60;
+    if(secs>0){
+      cdEl.style.display='block';
+      cdEl.textContent=p2(Math.floor(secs/60))+':'+p2(secs%60);
+      breakTimer=setInterval(()=>{
+        secs--;
+        cdEl.textContent=p2(Math.floor(secs/60))+':'+p2(secs%60);
+        if(secs<=0){clearInterval(breakTimer);setMode('live');}
+      },1000);
+    } else {cdEl.style.display='none';}
+  }
+}
+
+/* ═══ AD SYSTEM ═══ */
+const adConfig={
+  adL1:[
+    {bg:'linear-gradient(135deg,#0d0020,#1a0035)',color:'#cc88ff',icon:'📡',name:'A TV সরাসরি',sub:'চ্যানেলে স্বাগতম'},
+    {bg:'linear-gradient(135deg,#001a0d,#003520)',color:'#88ffcc',icon:'🌿',name:'প্রকৃতির কথা',sub:'বাংলাদেশের সবুজ'},
+    {bg:'linear-gradient(135deg,#200010,#400020)',color:'#ffaacc',icon:'❤️',name:'স্বাস্থ্য সেবা',sub:'আপনার পাশে আছি'},
   ],
-  'adslot-l2':[
-    {type:'image',src:'eye.png',caption:'চোখের যত্নে দেরি নয়'},
-    {type:'image',src:'Acash.jpeg',caption:'নিরাপদ আপনার টাকা'},
-    {type:'image',src:'lily.png',caption:'ত্বকের যত্নে কোন ছাড় নয়'},
+  adL2:[
+    {bg:'linear-gradient(135deg,#1a0800,#2a1200)',color:'#ffcc88',icon:'🌟',name:'বিশেষ অফার',sub:'আজই যোগাযোগ করুন'},
+    {bg:'linear-gradient(135deg,#001020,#002040)',color:'#88aaff',icon:'🎓',name:'শিক্ষা সেবা',sub:'এগিয়ে যাও'},
   ],
-  'adslot-r1':[
-    {type:'image',src:'iit.png',caption:'PMIT ADMISSION STARTING SOON!'},
-    {type:'image',src:'biman.png',caption:'বিমান বাংলাদেশ এয়ারলাইনস'},
-    {type:'image',src:'teletalk.png',caption:'টেলিটক আমাদের ফোন'},
+  adR1:[
+    {bg:'linear-gradient(135deg,#0a0000,#1a0000)',color:'#ff8888',icon:'🏦',name:'ব্যাংক সেবা',sub:'নিরাপদ আপনার অর্থ'},
+    {bg:'linear-gradient(135deg,#000a08,#001a15)',color:'#88ffee',icon:'✈️',name:'বিমান সেবা',sub:'দেশ থেকে বিদেশে'},
+    {bg:'linear-gradient(135deg,#080010,#120020)',color:'#bbaaff',icon:'📱',name:'মোবাইল সেবা',sub:'সংযুক্ত থাকুন'},
   ],
-  'adslot-r2':[
-    {type:'image',src:'alamin.png',caption:'আপনার স্কিল প্রকাশ করুন'},
-    {type:'image',src:'wlaton.png',caption:'আমাদের পণ্য'},
-    {type:'image',src:'nagad.png',caption:'নগদ ডাক বিভাগের প্রতিষ্ঠান'},
+  adR2:[
+    {bg:'linear-gradient(135deg,#100a00,#201500)',color:'#ffdd88',icon:'🛒',name:'শপিং অফার',sub:'সেরা মূল্যে কিনুন'},
+    {bg:'linear-gradient(135deg,#001010,#002020)',color:'#88ddff',icon:'💧',name:'বিশুদ্ধ পানি',sub:'সুস্বাস্থ্য নিশ্চিত'},
   ],
 };
-const slotIndexes={};
-
-function buildAdEl(cfg,h){
-  const div=document.createElement('div');
-  div.className='ad-slide';
-  div.style.height=h+'px';
-  if(cfg.type==='image'){
-    const img=document.createElement('img');
-    img.src=cfg.src;img.alt=cfg.caption||'';
-    img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:5px;';
-    img.onerror=()=>{
-      div.innerHTML=`<div class="ad-slide-fallback" style="background:#1a0510;color:#ff88aa;height:${h}px;">
-        <div style="font-size:16px;">📷</div>
-        <div style="font-size:9px;">${cfg.caption||'বিজ্ঞাপন'}</div></div>`;
-    };
-    div.appendChild(img);
-    if(cfg.caption){
-      const cap=document.createElement('div');
-      cap.style.cssText='position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);color:#fff;font-size:8px;padding:2px 4px;text-align:center;border-radius:0 0 5px 5px;';
-      cap.textContent=cfg.caption;
-      div.appendChild(cap);
-    }
-  }else{
-    div.innerHTML=`<div class="ad-slide-fallback" style="background:${cfg.bg};color:${cfg.color};height:${h}px;">
-      <div style="font-size:18px;margin-bottom:4px;">${cfg.icon}</div>
-      <div style="font-size:10px;font-weight:700;text-align:center;line-height:1.3;">${cfg.name}</div>
-      <div style="font-size:8px;opacity:.65;margin-top:2px;">${cfg.tag}</div></div>`;
-  }
-  return div;
-}
-
-function initSlot(id){
+const adIdx={};
+function initAd(id){
   const slot=document.getElementById(id);
   if(!slot)return;
-  /* Use percentage height — measure after layout */
-  const h=slot.getBoundingClientRect().height||140;
-  const ads=adData[id];
-  slotIndexes[id]=0;
-  const first=buildAdEl(ads[0],h);
-  first.style.position='relative';
-  slot.appendChild(first);
+  const ads=adConfig[id];
+  adIdx[id]=0;
+  renderAd(slot,ads[0]);
   setInterval(()=>{
-    const slotH=slot.getBoundingClientRect().height||h;
-    const cur=slot.querySelector('.ad-slide');
-    const nextIdx=(slotIndexes[id]+1)%ads.length;
-    slotIndexes[id]=nextIdx;
-    const next=buildAdEl(ads[nextIdx],slotH);
-    next.style.cssText='transform:translateY(100%);opacity:0;position:absolute;top:0;left:0;';
-    slot.appendChild(next);
-    next.classList.add('slide-enter');
-    if(cur){cur.style.position='absolute';cur.classList.add('slide-exit');setTimeout(()=>{cur.parentNode&&cur.parentNode.removeChild(cur);},650);}
-    setTimeout(()=>{next.style.cssText='position:relative;';next.classList.remove('slide-enter');},650);
-  },5500);
+    adIdx[id]=(adIdx[id]+1)%ads.length;
+    slot.style.opacity='0';
+    setTimeout(()=>{renderAd(slot,adConfig[id][adIdx[id]]);slot.style.opacity='1';},350);
+  },6000);
 }
-
-/* Init after layout is stable */
+function renderAd(slot,cfg){
+  slot.innerHTML=`<div class="ad-fallback" style="background:${cfg.bg};color:${cfg.color};height:100%;border-radius:7px;">
+    <div style="font-size:clamp(14px,2.2vw,26px);">${cfg.icon}</div>
+    <div style="font-size:clamp(7px,1vw,10px);font-weight:700;text-align:center;line-height:1.4;">${cfg.name}</div>
+    <div style="font-size:clamp(6px,.8vw,8px);opacity:.65;text-align:center;">${cfg.sub}</div>
+  </div>`;
+}
 window.addEventListener('load',()=>{
-  requestAnimationFrame(()=>{
-    ['adslot-l1','adslot-l2','adslot-r1','adslot-r2'].forEach(id=>initSlot(id));
-  });
+  requestAnimationFrame(()=>Object.keys(adConfig).forEach(id=>initAd(id)));
+  if(/Mobi|Android/i.test(navigator.userAgent)){
+    setTimeout(()=>openCamPanel(),1500);
+  }
+});
+
+/* ═══ URL PARAMS ═══ */
+(function(){
+  const p=new URLSearchParams(window.location.search);
+  const m=p.get('mode')||'live';
+  const d=parseInt(p.get('duration'))||60;
+  setMode(m,d);
+  if(p.get('cam')==='1')setTimeout(()=>startCamera('environment'),1000);
+})();
+
+/* ═══ KEYBOARD SHORTCUTS ═══ */
+document.addEventListener('keydown',e=>{
+  if(e.key==='1')setMode('live');
+  if(e.key==='2')setMode('break',60);
+  if(e.key==='3')setMode('break',120);
+  if(e.key==='c'||e.key==='C')openCamPanel();
+  if(e.key==='Escape')stopCamera();
 });
 </script>
 </body>
